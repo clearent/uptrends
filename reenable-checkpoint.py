@@ -12,10 +12,15 @@ checkpoint = checkpointservers.findCheckpointByName(checkpoint_name, user, secre
 print("Found checkpoint " + str(checkpoint["CheckPointID"])
     + " named " + checkpoint["CheckPointName"])
 
-probe = probes.getProbe(probeId, user, secret)
+probe_list = []
+if probeId == "all":
+    probe_list = probes.getProbes(user, secret)
+else:
+    probe_list.append(probes.getProbe(probeId, user, secret))
 
-print("Removing checkpoint " + str(checkpoint["CheckPointID"])
-    + " from exclusion list on probe " + probe["Name"])
-probes.removeCheckpointExclusion(checkpoint["CheckPointID"], probe, user, secret)
+for probe in probe_list:
+    print("Removing checkpoint " + str(checkpoint["CheckPointID"])
+        + " from exclusion list on probe " + probe["Name"])
+    probes.removeCheckpointExclusion(checkpoint["CheckPointID"], probe, user, secret)
 
 print("Complete")

@@ -1,6 +1,13 @@
 import json
 import requests
 
+def getProbes(user, secret):
+    probe_response = requests.get("https://api.uptrends.com/v3/probes",
+        headers={'Accept': 'application/json'}, auth=(user, secret))
+    probe_response.raise_for_status()
+    probes = probe_response.json()
+    return probes
+
 def getProbe(probeId, user, secret):
     probe_response = requests.get("https://api.uptrends.com/v3/probes/"+probeId,
         headers={'Accept': 'application/json'}, auth=(user, secret))
