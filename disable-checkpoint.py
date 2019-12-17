@@ -9,8 +9,8 @@ checkpoint_name = sys.argv[4]
 
 #get the probe to be updated and the id of the checkpoint to disable
 checkpoint = checkpointservers.findCheckpointByName(checkpoint_name, user, secret)
-print("Found checkpoint " + str(checkpoint["CheckPointID"])
-      + " named " + checkpoint["CheckPointName"])
+print("Found checkpoint " + str(checkpoint["Id"])
+      + " named " + checkpoint["Attributes"]["CheckpointName"])
 
 probe_list = []
 if probeId == "all":
@@ -19,8 +19,8 @@ else:
     probe_list.append(probes.getProbe(probeId, user, secret))
 
 for probe in probe_list:
-    print("Removing checkpoint " + str(checkpoint["CheckPointID"])
+    print("Removing checkpoint " + str(checkpoint["Id"])
           + " from probe " + probe["Name"])
-    probes.removeCheckpoint(checkpoint["CheckPointID"], probe, user, secret)
+    probes.removeCheckpoint(checkpoint["Id"], probe, user, secret)
 
 print("Complete")

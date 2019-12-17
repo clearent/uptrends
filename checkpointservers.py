@@ -1,7 +1,7 @@
 import requests
 
 def getCheckpoints(user, secret):
-    checkpoints_response = requests.get("https://api.uptrends.com/v3/checkpointservers",
+    checkpoints_response = requests.get("https://api.uptrends.com/v4/Checkpoint",
         headers={'Accept': 'application/json'}, auth=(user, secret))
     checkpoints_response.raise_for_status()
     checkpoints = checkpoints_response.json()
@@ -13,7 +13,7 @@ def findCheckpointByName(checkpoint_name, user, secret):
 
     #walk the list until we find the one that matches
     checkpoint = None
-    for item in checkpoints:
-        if checkpoint_name in item["CheckPointName"]:
+    for item in checkpoints["Data"]:
+        if checkpoint_name in item["Attributes"]["CheckpointName"]:
             checkpoint = item
     return checkpoint
