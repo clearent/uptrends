@@ -2,15 +2,15 @@
 Python scripts for interacting with the Uptrends API
 
 ## disable-checkpoint.py
-Adds a checkpoint to the Checkpoints list for a given probe/monitor.
-<pre>python disable-checkpoint.py {account_username} {account_password} {probe_id} {checkpoint_name}</pre>
-
-Add a checkpoint to the Checkpoints list for ALL probes/monitors.
-<pre>python disable-checkpoint.py {account_username} {account_password} all {checkpoint_name}</pre>
+Add checkpoint(s) to the Checkpoints list for a given probe/monitor.
+<pre>python disable-checkpoint.py</pre>
+You'll be prompted for your API username/password, the name of the probe/monitor you wish you to update, and the name
+of the checkpoint to disable. You will have the option to enter "all" for the probe/monitor name to update all probes 
+under your account.
 
 ## enable-checkpoint.py
-Removes a checkpoint from the Checkpoints list on the probe/monitor.
-<pre>python enable-checkpoint.py {account_username} {account_password} {probe_id} {checkpoint_name}</pre>
-
-Remove a checkpoint from the Checkpoints list for ALL probes/monitors.
-<pre>python enable-checkpoint.py {account_username} {account_password} all {checkpoint_name}</pre>
+Remove checkpoint(s) from the Checkpoints list on the probe/monitor.
+<pre>python enable-checkpoint.py</pre>
+You'll be prompted for your API username/password, the name of the probe/monitor you wish you to update, and the name
+of the checkpoint to enable. You will have the option to enter "all" for the probe/monitor name to update all probes 
+under your account.
