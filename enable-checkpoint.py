@@ -1,12 +1,11 @@
-import sys
 import probes
 import checkpointservers
 from requests import exceptions
 
-user = sys.argv[1]
-secret = sys.argv[2]
-probeId = sys.argv[3]
-checkpoint_name = sys.argv[4]
+user = input("Enter your Uptrends API user ID: ")
+secret = input("Enter your Uptrends API secret: ")
+probeId = input("Enter name of probe/monitor to update (or enter 'all' to update all probes under your account): ")
+checkpoint_name = input("Enter name of checkpoint to enable: ")
 
 #get the probe to be updated and the id of the checkpoint to disable
 checkpoint = checkpointservers.findCheckpointByName(checkpoint_name, user, secret)
