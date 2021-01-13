@@ -26,7 +26,7 @@ for probe in probe_list:
     try:
         probes.addCheckpoint(checkpoint["Id"], probe, user, secret)
     except exceptions.HTTPError as err:
-        print("Failed to remove checkpoint from probe " + probe["Name"] + " - " + str(err))
+        print("Failed to add checkpoint to probe " + probe["Name"] + " - " + str(err))
         update_failures.append(probe)
 
 print("Complete")
