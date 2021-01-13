@@ -16,7 +16,7 @@ def getProbe(probeId, user, secret):
     return probe
 
 def addCheckpoint(checkpointId, probe, user, secret):
-    if not "Checkpoints" in probe["SelectedCheckpoints"]:
+    if "Checkpoints" not in probe["SelectedCheckpoints"]:
         probe["SelectedCheckpoints"]["Checkpoints"] = []
     if checkpointId not in probe["SelectedCheckpoints"]["Checkpoints"]:
         print("Adding checkpoint " + str(checkpointId)
@@ -25,7 +25,7 @@ def addCheckpoint(checkpointId, probe, user, secret):
         updateProbe(probe["MonitorGuid"], probe, user, secret)
 
 def removeCheckpoint(checkpointId, probe, user, secret):
-    if not "Checkpoints" in probe["SelectedCheckpoints"]:
+    if "Checkpoints" not in probe["SelectedCheckpoints"]:
         print("No checkpoints defined for probe " + str(probe["MonitorGuid"] + " - " + probe["Name"]))
         return
         
@@ -36,9 +36,13 @@ def removeCheckpoint(checkpointId, probe, user, secret):
         updateProbe(probe["MonitorGuid"], probe, user, secret)
 
 def updateProbe(probeId, payload, user, secret):
+    update_data = {"MonitorGuid": payload["MonitorGuid"],
+                   "SelectedCheckpoints": {"Checkpoints": payload["SelectedCheckpoints"]["Checkpoints"]
+                                           }
+                   }
     response = requests.patch("https://api.uptrends.com/v4/Monitor/" + probeId,
-                             headers={'Content-type': 'application/json', 'Accept': 'application/json'},
+                             headers={'Content-Type': 'application/json', 'Accept': 'application/json'},
                              auth=(user, secret),
-                             json=payload)
+                             data=str(json.dumps(update_data)))
     response.raise_for_status()
     return response
