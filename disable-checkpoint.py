@@ -21,13 +21,16 @@ else:
 
 update_failures = []
 for probe in probe_list:
-    print("Removing checkpoint " + str(checkpoint["Id"])
-          + " from probe " + probe["Name"])
-    try:
-        probes.removeCheckpoint(checkpoint["Id"], probe, user, secret)
-    except exceptions.HTTPError as err:
-        print("Failed to remove checkpoint from probe " + probe["Name"] + " - " + str(err))
-        update_failures.append(probe)
+    if "Regions" in probe["SelectedCheckpoints"]:
+        print("Probe " + probe["Name"] + " is using region(s) instead of individual checkpoints - skipping")
+    else:
+        print("Removing checkpoint " + str(checkpoint["Id"])
+              + " from probe " + probe["Name"])
+        try:
+            probes.removeCheckpoint(checkpoint["Id"], probe, user, secret)
+        except exceptions.HTTPError as err:
+            print("Failed to remove checkpoint from probe " + probe["Name"] + " - " + str(err))
+            update_failures.append(probe)
 
 print("Complete")
 if len(update_failures) > 0:
