@@ -1,12 +1,11 @@
-import sys
 import probes
 import checkpointservers
 from requests import exceptions
 
-user = sys.argv[1]
-secret = sys.argv[2]
-probeId = sys.argv[3]
-checkpoint_name = sys.argv[4]
+user = input("Enter your Uptrends API user ID: ")
+secret = input("Enter your Uptrends API secret: ")
+probeId = input("Enter name of probe/monitor to update (or enter 'all' to update all probes under your account): ")
+checkpoint_name = input("Enter name of checkpoint to enable: ")
 
 #get the probe to be updated and the id of the checkpoint to disable
 checkpoint = checkpointservers.findCheckpointByName(checkpoint_name, user, secret)
@@ -21,13 +20,16 @@ else:
 
 update_failures = []
 for probe in probe_list:
-    print("Adding checkpoint " + str(checkpoint["Id"])
-          + " to probe " + probe["Name"])
-    try:
-        probes.addCheckpoint(checkpoint["Id"], probe, user, secret)
-    except exceptions.HTTPError as err:
-        print("Failed to remove checkpoint from probe " + probe["Name"] + " - " + str(err))
-        update_failures.append(probe)
+    if "Regions" in probe["SelectedCheckpoints"]:
+        print("Probe " + probe["Name"] + " is using region(s) instead of individual checkpoints - skipping")
+    else:
+        print("Adding checkpoint " + str(checkpoint["Id"])
+              + " to probe " + probe["Name"])
+        try:
+            probes.addCheckpoint(checkpoint["Id"], probe, user, secret)
+        except exceptions.HTTPError as err:
+            print("Failed to add checkpoint to probe " + probe["Name"] + " - " + str(err))
+            update_failures.append(probe)
 
 print("Complete")
 if len(update_failures) > 0:
